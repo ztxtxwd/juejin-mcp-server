@@ -56,7 +56,7 @@ function loadPackageInfo(): PackageInfo {
     // fallback默认值
     return {
       name: 'juejin-mcp-server',
-      version: '1.1.0',
+      version: '1.1.1',
       description: '🚀 专为MCP用户设计的掘金内容智能分析工具',
       author: {
         name: 'h7ml',
@@ -154,7 +154,7 @@ export function getServerInfo() {
     description: pkg.description,
     author: pkg.author.name,
     homepage: pkg.homepage,
-    protocolVersion: '1.1.0', // MCP协议版本保持固定
+    protocolVersion: '1.1.1', // MCP协议版本保持固定
   };
 }
 

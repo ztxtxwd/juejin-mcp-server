@@ -130,8 +130,12 @@ jobs:
     - name: Test built package
       run: |
         pnpm pack
-        pnpm install -g ./juejin-mcp-server-*.tgz
-        juejin-mcp-server --help || echo "Package installed successfully"
+        PACKAGE_FILE=$(ls juejin-mcp-server-*.tgz)
+        pnpm add -g "$(pwd)/$PACKAGE_FILE"
+        echo "Testing package installation..."
+        juejin-mcp-server --version
+        juejin-mcp-server --help
+        echo "Package installed and tested successfully"
         
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4

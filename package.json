@@ -1,6 +1,6 @@
 {
   "name": "juejin-mcp-server",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "🚀 专为MCP用户设计的掘金内容智能分析工具 - 提供34个专业工具，支持内容获取、智能推荐、趋势分析和用户交互",
   "main": "dist/index.js",
   "bin": {
@@ -34,8 +34,8 @@
     "test:integration": "node _test/mcp-integration-test.js",
     "test:complete": "node _test/complete-interface-test.js",
     "test:all": "npm run test && npm run test:integration && npm run test:complete",
-    "lint": "node scripts/check-typescript.js",
-    "lint:fix": "node scripts/check-typescript.js",
+    "lint": "eslint src/**/*.ts",
+    "lint:fix": "eslint src/**/*.ts --fix",
     "lint:eslint": "eslint . --ext .js,.jsx",
     "lint:eslint:fix": "eslint . --ext .js,.jsx --fix",
     "format": "prettier --write src/**/*.ts",
@@ -85,7 +85,7 @@
     }
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.1.0",
+    "@modelcontextprotocol/sdk": "^1.1.1",
     "axios": "^1.6.0",
     "date-fns": "^3.0.0",
     "lodash": "^4.17.21",

@@ -22,9 +22,80 @@ import { runPerformanceBenchmark } from './utils/performance-monitor.js';
 import { getBrandInfo } from './utils/package-info.js';
 
 /**
+ * 显示帮助信息
+ */
+function showHelp() {
+  const brandInfo = getBrandInfo();
+  console.log(`${brandInfo.fullName}`);
+  console.log(`${brandInfo.description}\n`);
+  console.log('用法：');
+  console.log('  juejin-mcp-server [选项]\n');
+  console.log('选项：');
+  console.log('  -h, --help     显示帮助信息');
+  console.log('  -v, --version  显示版本号');
+  console.log('  --no-benchmark 跳过性能基准测试\n');
+  console.log('功能：');
+  console.log('  • 文章数据获取和分析');
+  console.log('  • 沸点数据获取和分析');
+  console.log('  • 智能趋势分析');
+  console.log('  • 个性化推荐系统');
+  console.log('  • 用户行为分析');
+  console.log('  • 内容质量评估');
+  console.log('  • 性能监控和优化\n');
+  console.log(`文档：${brandInfo.homepageUrl}`);
+}
+
+/**
+ * 显示版本信息
+ */
+function showVersion() {
+  const brandInfo = getBrandInfo();
+  console.log(brandInfo.version);
+}
+
+/**
+ * 处理命令行参数
+ */
+function parseArgs(): { help: boolean; version: boolean; noBenchmark: boolean } {
+  const args = process.argv.slice(2);
+  const result = { help: false, version: false, noBenchmark: false };
+
+  for (const arg of args) {
+    switch (arg) {
+      case '-h':
+      case '--help':
+        result.help = true;
+        break;
+      case '-v':
+      case '--version':
+        result.version = true;
+        break;
+      case '--no-benchmark':
+        result.noBenchmark = true;
+        break;
+    }
+  }
+
+  return result;
+}
+
+/**
  * 主函数 - 启动MCP服务器
  */
 async function main() {
+  const args = parseArgs();
+
+  // 处理帮助参数
+  if (args.help) {
+    showHelp();
+    process.exit(0);
+  }
+
+  // 处理版本参数
+  if (args.version) {
+    showVersion();
+    process.exit(0);
+  }
   const brandInfo = getBrandInfo();
   console.log(`🚀 启动${brandInfo.displayName}...`);
   console.log(`📦 ${brandInfo.fullName}`);
@@ -35,8 +106,10 @@ async function main() {
     // 创建服务器实例
     const server = new JuejinMcpServer();
     
-    // 运行性能基准测试
-    await runPerformanceBenchmark();
+    // 运行性能基准测试（除非用户指定跳过）
+    if (!args.noBenchmark) {
+      await runPerformanceBenchmark();
+    }
 
     // 启动服务器
     await server.start();
