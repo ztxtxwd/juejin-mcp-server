@@ -84,22 +84,53 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       
-    - name: Setup Node.js
+    - name: Setup pnpm
+      uses: pnpm/action-setup@v4
+      with:
+        version: 8.15.0
+        run_install: false
+        
+    - name: Setup Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
-        node-version: '20.x'
-        cache: 'npm'
-        
-    - name: Install dependencies
-      run: npm ci
+        node-version: ${{ matrix.node-version }}
+        cache: 'pnpm'
       
+    - name: Get pnpm store directory
+      shell: bash
+      run: |
+        echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+    - name: Setup pnpm cache
+      uses: actions/cache@v3
+      with:
+        path: ${{ env.STORE_PATH }}
+        key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+        restore-keys: |
+          ${{ runner.os }}-pnpm-store-
+
+    - name: Check lockfile
+      run: |
+        chmod +x scripts/check-lockfile.sh
+        ./scripts/check-lockfile.sh
+
+    - name: Install dependencies
+      run: |
+        if [ -f pnpm-lock.yaml ]; then
+          echo "Found pnpm-lock.yaml, installing with frozen lockfile"
+          pnpm install --frozen-lockfile
+        else
+          echo "No pnpm-lock.yaml found, installing without frozen lockfile"
+          pnpm install
+        fi
+
     - name: Build
-      run: npm run build:clean
+      run: pnpm run build:clean
       
     - name: Test built package
       run: |
-        npm pack
-        npm install -g ./juejin-mcp-server-*.tgz
+        pnpm pack
+        pnpm install -g ./juejin-mcp-server-*.tgz
         juejin-mcp-server --help || echo "Package installed successfully"
         
     - name: Upload build artifacts

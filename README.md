@@ -1,9 +1,40 @@
 # 掘金MCP服务器
 
-[![NPM Version](https://img.shields.io/npm/v/juejin-mcp-server)](https://www.npmjs.com/package/juejin-mcp-server)
-[![CI](https://github.com/h7ml/juejin-mcp-server/workflows/CI/badge.svg)](https://github.com/h7ml/juejin-mcp-server/actions)
-[![License](https://img.shields.io/npm/l/juejin-mcp-server)](https://github.com/h7ml/juejin-mcp-server/blob/main/LICENSE)
-[![Downloads](https://img.shields.io/npm/dm/juejin-mcp-server)](https://www.npmjs.com/package/juejin-mcp-server)
+<div align="center">
+
+<!-- 核心信息徽章 -->
+<div style="margin-bottom: 8px;">
+  <a href="https://www.npmjs.com/package/juejin-mcp-server">
+    <img src="https://img.shields.io/npm/v/juejin-mcp-server?style=flat-square&logo=npm&color=cb3837" alt="NPM Version" />
+  </a>
+  <a href="https://github.com/h7ml/juejin-mcp-server/actions">
+    <img src="https://img.shields.io/github/actions/workflow/status/h7ml/juejin-mcp-server/ci.yml?style=flat-square&logo=github&label=CI" alt="CI Status" />
+  </a>
+  <a href="https://github.com/h7ml/juejin-mcp-server/blob/main/LICENSE">
+    <img src="https://img.shields.io/npm/l/juejin-mcp-server?style=flat-square&color=green" alt="License" />
+  </a>
+  <a href="https://www.npmjs.com/package/juejin-mcp-server">
+    <img src="https://img.shields.io/npm/dm/juejin-mcp-server?style=flat-square&logo=npm&color=blue" alt="Downloads" />
+  </a>
+</div>
+
+<!-- 技术栈徽章 -->
+<div>
+  <a href="https://nodejs.org/">
+    <img src="https://img.shields.io/node/v/juejin-mcp-server?style=flat-square&logo=node.js&color=339933" alt="Node.js" />
+  </a>
+  <a href="https://www.typescriptlang.org/">
+    <img src="https://img.shields.io/badge/TypeScript-5.0+-blue?style=flat-square&logo=typescript" alt="TypeScript" />
+  </a>
+  <a href="https://modelcontextprotocol.io/">
+    <img src="https://img.shields.io/badge/MCP-1.1.0-purple?style=flat-square&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDE1Ljc0TDEyIDIyTDEwLjkxIDE1Ljc0TDQgOUwxMC45MSA4LjI2TDEyIDJaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K" alt="MCP" />
+  </a>
+  <a href="https://juejin.cn/">
+    <img src="https://img.shields.io/badge/掘金-API-1e80ff?style=flat-square&logo=data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQiIGhlaWdodD0iMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTEyIDJMMTMuMDkgOC4yNkwyMCA5TDEzLjA5IDE1Ljc0TDEyIDIyTDEwLjkxIDE1Ljc0TDQgOUwxMC45MSA4LjI2TDEyIDJaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K" alt="掘金" />
+  </a>
+</div>
+
+</div>
 
 🚀 为AI助手提供掘金内容智能分析能力的MCP服务器
 

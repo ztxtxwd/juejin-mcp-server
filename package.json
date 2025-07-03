@@ -1,6 +1,6 @@
 {
   "name": "juejin-mcp-server",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "🚀 专为MCP用户设计的掘金内容智能分析工具 - 提供34个专业工具，支持内容获取、智能推荐、趋势分析和用户交互",
   "main": "dist/index.js",
   "bin": {
@@ -52,7 +52,8 @@
     "pnpm:setup": "pnpm install && pnpm run build",
     "cache:clear": "npm cache clean --force && (pnpm store prune || true)",
     "ci:install": "if [ -f pnpm-lock.yaml ]; then echo 'Installing with frozen lockfile' && pnpm install --frozen-lockfile; else echo 'Installing without frozen lockfile' && pnpm install; fi",
-    "ci:check": "echo 'Checking lockfile...' && ls -la *lock* || echo 'No lockfiles found'"
+    "ci:check": "echo 'Checking lockfile...' && ls -la *lock* || echo 'No lockfiles found'",
+    "verify:package": "node scripts/verify-npm-package.js"
   },
   "keywords": [
     "mcp",
@@ -84,7 +85,7 @@
     }
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.0.0",
+    "@modelcontextprotocol/sdk": "^1.1.0",
     "axios": "^1.6.0",
     "date-fns": "^3.0.0",
     "lodash": "^4.17.21",

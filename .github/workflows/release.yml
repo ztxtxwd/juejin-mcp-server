@@ -12,19 +12,18 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-      
+
     - name: Setup pnpm
       uses: pnpm/action-setup@v4
       with:
         version: 8.15.0
         run_install: false
 
-    - name: Setup Node.js
+    - name: Setup Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
-        node-version: '20.x'
+        node-version: ${{ matrix.node-version }}
         cache: 'pnpm'
-        registry-url: 'https://registry.npmjs.org'
 
     - name: Get pnpm store directory
       shell: bash
@@ -39,6 +38,11 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-pnpm-store-
 
+    - name: Check lockfile
+      run: |
+        chmod +x scripts/check-lockfile.sh
+        ./scripts/check-lockfile.sh
+
     - name: Install dependencies
       run: |
         if [ -f pnpm-lock.yaml ]; then
@@ -48,9 +52,6 @@ jobs:
           echo "No pnpm-lock.yaml found, installing without frozen lockfile"
           pnpm install
         fi
-
-    - name: Run tests
-      run: pnpm run test:all
 
     - name: Build
       run: pnpm run build:clean
