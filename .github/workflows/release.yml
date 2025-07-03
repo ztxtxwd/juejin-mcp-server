@@ -64,13 +64,15 @@ jobs:
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
         
+    - name: Extract tag name
+      id: tag
+      run: echo "name=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+
     - name: Create GitHub Release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      uses: softprops/action-gh-release@v2
       with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
+        tag_name: ${{ steps.tag.outputs.name }}
+        name: Release ${{ steps.tag.outputs.name }}
         body: |
           ## 🚀 新版本发布
           
@@ -88,6 +90,7 @@ jobs:
           请查看 [CHANGELOG.md](https://github.com/h7ml/juejin-mcp-server/blob/main/CHANGELOG.md) 了解详细更新内容。
         draft: false
         prerelease: false
+        generate_release_notes: true
         
   docker:
     runs-on: ubuntu-latest
