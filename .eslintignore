@@ -1,0 +1,28 @@
+# 构建输出
+dist/
+build/
+
+# 依赖
+node_modules/
+
+# TypeScript声明文件
+*.d.ts
+
+# 临时忽略所有TypeScript文件，直到环境配置正确
+src/**/*.ts
+
+# 测试文件
+_test/
+*.test.js
+*.test.ts
+
+# 配置文件
+*.config.js
+*.config.ts
+
+# 日志文件
+*.log
+
+# 缓存文件
+.cache/
+.eslintcache

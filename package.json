@@ -1,0 +1,119 @@
+{
+  "name": "juejin-mcp-server",
+  "version": "1.0.0",
+  "description": "🚀 专为MCP用户设计的掘金内容智能分析工具 - 提供34个专业工具，支持内容获取、智能推荐、趋势分析和用户交互",
+  "main": "dist/index.js",
+  "bin": {
+    "juejin-mcp-server": "dist/index.js"
+  },
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.d.ts",
+    "README.md",
+    "docs/**/*",
+    "package.json"
+  ],
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/h7ml/juejin-mcp-server.git"
+  },
+  "homepage": "https://github.com/h7ml/juejin-mcp-server#readme",
+  "bugs": {
+    "url": "https://github.com/h7ml/juejin-mcp-server/issues"
+  },
+  "scripts": {
+    "build": "tsc",
+    "build:clean": "rm -rf dist && npm run build",
+    "start": "node dist/index.js",
+    "dev": "tsx src/server.ts",
+    "test": "node _test/run-tests.js",
+    "test:api": "node _test/api-test.js",
+    "test:tools": "node _test/mcp-tools-test.js",
+    "test:server": "node _test/test-server.js",
+    "test:debug": "node _test/debug-api.js",
+    "test:integration": "node _test/mcp-integration-test.js",
+    "test:complete": "node _test/complete-interface-test.js",
+    "test:all": "npm run test && npm run test:integration && npm run test:complete",
+    "lint": "node scripts/check-typescript.js",
+    "lint:fix": "node scripts/check-typescript.js",
+    "lint:eslint": "eslint . --ext .js,.jsx",
+    "lint:eslint:fix": "eslint . --ext .js,.jsx --fix",
+    "format": "prettier --write src/**/*.ts",
+    "format:check": "prettier --check src/**/*.ts",
+    "typecheck": "tsc --noEmit",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm run test:all && npm run build",
+    "version": "npm run format && git add -A src",
+    "postversion": "git push && git push --tags",
+    "pnpm:install": "pnpm install",
+    "pnpm:build": "pnpm run build",
+    "pnpm:test": "pnpm run test:all",
+    "pnpm:clean": "pnpm store prune && pnpm install",
+    "pnpm:setup": "pnpm install && pnpm run build",
+    "cache:clear": "npm cache clean --force && (pnpm store prune || true)",
+    "ci:install": "if [ -f pnpm-lock.yaml ]; then echo 'Installing with frozen lockfile' && pnpm install --frozen-lockfile; else echo 'Installing without frozen lockfile' && pnpm install; fi",
+    "ci:check": "echo 'Checking lockfile...' && ls -la *lock* || echo 'No lockfiles found'"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "juejin",
+    "api",
+    "analytics",
+    "recommendation",
+    "ai",
+    "content-analysis",
+    "trend-analysis",
+    "intelligent-recommendation",
+    "typescript",
+    "cursor",
+    "claude",
+    "tech-content"
+  ],
+  "author": {
+    "name": "h7ml",
+    "email": "h7ml@qq.com",
+    "url": "https://github.com/h7ml"
+  },
+  "license": "MIT",
+  "acknowledgments": {
+    "juejin-api": {
+      "name": "chenzijia12300/juejin-api",
+      "url": "https://github.com/chenzijia12300/juejin-api",
+      "description": "掘金平台API接口文档和实现参考"
+    }
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "axios": "^1.6.0",
+    "date-fns": "^3.0.0",
+    "lodash": "^4.17.21",
+    "ml-matrix": "^6.10.0",
+    "natural": "^6.0.0"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.0",
+    "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "eslint": "^8.0.0",
+    "prettier": "^3.0.0",
+    "tsx": "^4.0.0",
+    "typescript": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=8.0.0",
+    "pnpm": ">=8.0.0"
+  },
+  "packageManager": "pnpm@8.15.0",
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/h7ml"
+  }
+}
