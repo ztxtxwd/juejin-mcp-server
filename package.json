@@ -10,7 +10,6 @@
     "dist/**/*.js",
     "dist/**/*.d.ts",
     "README.md",
-    "docs/**/*",
     "package.json"
   ],
   "type": "module",

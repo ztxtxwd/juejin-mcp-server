@@ -43,21 +43,21 @@ AI指令: "帮我找5篇高质量的前端技术文章"
 
 ## 📚 文档导航
 
-| 文档类型      | 链接                                       | 描述                   |
-| ------------- | ------------------------------------------ | ---------------------- |
-| 🚀 快速上手   | [5分钟教程](./docs/quick-start.md)         | 最快速的入门方式       |
-| ⚙️ 安装配置   | [安装指南](./docs/installation.md)         | 详细安装和配置步骤     |
-| 🖥️ 客户端配置 | [MCP客户端](./docs/mcp-clients.md)         | Cursor、Claude等配置   |
-| 🛠️ 工具文档   | [34个工具](./docs/tools/README.md)         | 完整工具列表和使用说明 |
-| 💡 使用指南   | [最佳实践](./docs/usage/best-practices.md) | 推荐使用方式和技巧     |
-| 🔧 开发文档   | [贡献指南](./CONTRIBUTING.md)              | 参与项目开发           |
+| 文档类型      | 链接                                                                                         | 描述                   |
+| ------------- | -------------------------------------------------------------------------------------------- | ---------------------- |
+| 🚀 快速上手   | [5分钟教程](https://github.com/h7ml/juejin-mcp-server/blob/main/docs/quick-start.md)         | 最快速的入门方式       |
+| ⚙️ 安装配置   | [安装指南](https://github.com/h7ml/juejin-mcp-server/blob/main/docs/installation.md)         | 详细安装和配置步骤     |
+| 🖥️ 客户端配置 | [MCP客户端](https://github.com/h7ml/juejin-mcp-server/blob/main/docs/mcp-clients.md)         | Cursor、Claude等配置   |
+| 🛠️ 工具文档   | [34个工具](https://github.com/h7ml/juejin-mcp-server/blob/main/docs/tools/README.md)         | 完整工具列表和使用说明 |
+| 💡 使用指南   | [最佳实践](https://github.com/h7ml/juejin-mcp-server/blob/main/docs/usage/best-practices.md) | 推荐使用方式和技巧     |
+| 🔧 开发文档   | [贡献指南](https://github.com/h7ml/juejin-mcp-server/blob/main/CONTRIBUTING.md)              | 参与项目开发           |
 
 ## 🔗 快速链接
 
 - 📦 [NPM包](https://www.npmjs.com/package/juejin-mcp-server)
 - 🐛 [问题反馈](https://github.com/h7ml/juejin-mcp-server/issues)
 - 💬 [讨论区](https://github.com/h7ml/juejin-mcp-server/discussions)
-- 📖 [完整文档](./docs/README.md)
+- 📖 [完整文档](https://github.com/h7ml/juejin-mcp-server/blob/main/docs/README.md)
 
 ## 🙏 致谢
 

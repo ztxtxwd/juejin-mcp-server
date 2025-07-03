@@ -3,6 +3,9 @@ src/
 tsconfig.json
 .env*
 
+# Documentation (not published to npm)
+docs/
+
 # Development files
 _test/
 *.test.js
@@ -44,6 +47,23 @@ coverage/
 .env.test.local
 .env.production.local
 
-# Misc
+# GitHub and CI/CD
+.github/
 .git/
 .gitignore
+
+# Configuration files
+.eslintrc.*
+.prettierrc.*
+.editorconfig
+
+# Package manager files
+pnpm-lock.yaml
+yarn.lock
+pnpm-workspace.yaml
+
+# Scripts
+scripts/
+
+# Misc
+juejin-api/
