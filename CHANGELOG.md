@@ -2,7 +2,7 @@
 
 本文档记录了掘金MCP服务器的所有重要更改。
 
-格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.1/)，
+格式基于 [Keep a Changelog](https://keepachangelog.com/zh-CN/1.1.3/)，
 并且本项目遵循 [语义化版本](https://semver.org/lang/zh-CN/)。
 
 ## [未发布]
@@ -20,7 +20,7 @@
 - 构建配置优化，去除 source map
 - README.md 重构，面向 MCP 用户
 
-## [1.1.1] - 2025-07-03
+## [1.1.3] - 2025-07-03
 
 ### 新增
 

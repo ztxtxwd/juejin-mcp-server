@@ -418,7 +418,7 @@ async function runAllTests() {
       start_time: new Date().toISOString(),
       total_tools: TOOLS_TO_TEST.length,
       test_environment: 'development',
-      test_version: '1.1.1'
+      test_version: '1.1.3'
     },
     summary: {
       total: 0,
