@@ -14,14 +14,23 @@ RUN corepack enable && corepack prepare pnpm@8.15.0 --activate
 RUN addgroup -g 1001 -S nodejs
 RUN adduser -S juejin -u 1001
 
-# 构建阶段
-FROM base AS builder
+# 依赖安装阶段
+FROM base AS deps
 
 # 复制 package 文件和 pnpm 锁文件
 COPY package.json pnpm-lock.yaml ./
 
-# 安装所有依赖（包括开发依赖）
-RUN pnpm install --frozen-lockfile
+# 安装所有依赖（跳过 prepare 脚本，因为还没有源代码）
+RUN pnpm install --frozen-lockfile --ignore-scripts
+
+# 构建阶段
+FROM base AS builder
+
+# 从依赖阶段复制node_modules
+COPY --from=deps /app/node_modules ./node_modules
+
+# 复制 package 文件
+COPY package.json pnpm-lock.yaml ./
 
 # 复制源代码
 COPY . .
