@@ -39,8 +39,8 @@ ENV PORT=3000
 # 复制 package 文件和 pnpm 锁文件
 COPY package.json pnpm-lock.yaml ./
 
-# 只安装生产依赖
-RUN pnpm install --frozen-lockfile --prod && pnpm store prune
+# 只安装生产依赖（跳过脚本，因为我们已经有构建产物了）
+RUN pnpm install --frozen-lockfile --prod --ignore-scripts && pnpm store prune
 
 # 从构建阶段复制构建产物
 COPY --from=builder /app/dist ./dist
