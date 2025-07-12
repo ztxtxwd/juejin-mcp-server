@@ -26,23 +26,23 @@ import { getBrandInfo } from './utils/package-info.js';
  */
 function showHelp() {
   const brandInfo = getBrandInfo();
-  console.log(`${brandInfo.fullName}`);
-  console.log(`${brandInfo.description}\n`);
-  console.log('用法：');
-  console.log('  juejin-mcp-server [选项]\n');
-  console.log('选项：');
-  console.log('  -h, --help     显示帮助信息');
-  console.log('  -v, --version  显示版本号');
-  console.log('  --no-benchmark 跳过性能基准测试\n');
-  console.log('功能：');
-  console.log('  • 文章数据获取和分析');
-  console.log('  • 沸点数据获取和分析');
-  console.log('  • 智能趋势分析');
-  console.log('  • 个性化推荐系统');
-  console.log('  • 用户行为分析');
-  console.log('  • 内容质量评估');
-  console.log('  • 性能监控和优化\n');
-  console.log(`文档：${brandInfo.homepageUrl}`);
+  console.error(`${brandInfo.fullName}`);
+  console.error(`${brandInfo.description}\n`);
+  console.error('用法：');
+  console.error('  juejin-mcp-server [选项]\n');
+  console.error('选项：');
+  console.error('  -h, --help     显示帮助信息');
+  console.error('  -v, --version  显示版本号');
+  console.error('  --no-benchmark 跳过性能基准测试\n');
+  console.error('功能：');
+  console.error('  • 文章数据获取和分析');
+  console.error('  • 沸点数据获取和分析');
+  console.error('  • 智能趋势分析');
+  console.error('  • 个性化推荐系统');
+  console.error('  • 用户行为分析');
+  console.error('  • 内容质量评估');
+  console.error('  • 性能监控和优化\n');
+  console.error(`文档：${brandInfo.homepageUrl}`);
 }
 
 /**
@@ -50,7 +50,7 @@ function showHelp() {
  */
 function showVersion() {
   const brandInfo = getBrandInfo();
-  console.log(brandInfo.version);
+  console.error(brandInfo.version);
 }
 
 /**
@@ -97,10 +97,10 @@ async function main() {
     process.exit(0);
   }
   const brandInfo = getBrandInfo();
-  console.log(`🚀 启动${brandInfo.displayName}...`);
-  console.log(`📦 ${brandInfo.fullName}`);
-  console.log(`📝 ${brandInfo.description}`);
-  console.log('');
+  console.error(`🚀 启动${brandInfo.displayName}...`);
+  console.error(`📦 ${brandInfo.fullName}`);
+  console.error(`📝 ${brandInfo.description}`);
+  console.error('');
   
   try {
     // 创建服务器实例
@@ -114,22 +114,22 @@ async function main() {
     // 启动服务器
     await server.start();
 
-    console.log(`✅ ${brandInfo.displayName}启动成功！`);
-    console.log('📊 可用功能：');
-    console.log('   • 文章数据获取和分析');
-    console.log('   • 沸点数据获取和分析');
-    console.log('   • 智能趋势分析');
-    console.log('   • 个性化推荐系统');
-    console.log('   • 用户行为分析');
-    console.log('   • 内容质量评估');
-    console.log('   • 性能监控和优化');
-    console.log('');
-    console.log('🔧 支持的工具数量 34+');
-    console.log('🧠 集成AI分析能力：趋势识别、质量评估、推荐算法');
-    console.log('⚡ 性能优化：智能缓存、批处理、并发控制');
-    console.log('🔐 授权功能：点赞、收藏、关注等用户操作');
-    console.log('');
-    console.log(`📖 使用文档：${brandInfo.homepageUrl}`);
+    console.error(`✅ ${brandInfo.displayName}启动成功！`);
+    console.error('📊 可用功能：');
+    console.error('   • 文章数据获取和分析');
+    console.error('   • 沸点数据获取和分析');
+    console.error('   • 智能趋势分析');
+    console.error('   • 个性化推荐系统');
+    console.error('   • 用户行为分析');
+    console.error('   • 内容质量评估');
+    console.error('   • 性能监控和优化');
+    console.error('');
+    console.error('🔧 支持的工具数量 34+');
+    console.error('🧠 集成AI分析能力：趋势识别、质量评估、推荐算法');
+    console.error('⚡ 性能优化：智能缓存、批处理、并发控制');
+    console.error('🔐 授权功能：点赞、收藏、关注等用户操作');
+    console.error('');
+    console.error(`📖 使用文档：${brandInfo.homepageUrl}`);
     
   } catch (error) {
     console.error('❌ 服务器启动失败:', error);
@@ -142,7 +142,7 @@ async function main() {
  */
 function setupGracefulShutdown() {
   const shutdown = (signal: string) => {
-    console.log(`\n📴 收到 ${signal} 信号，正在关闭服务器...`);
+    console.error(`\n📴 收到 ${signal} 信号，正在关闭服务器...`);
     process.exit(0);
   };
 

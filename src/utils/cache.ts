@@ -139,7 +139,7 @@ export class SmartCache<T> {
     keysToDelete.forEach(key => this.cache.delete(key));
 
     if (keysToDelete.length > 0) {
-      console.log(`[Cache] Cleaned up ${keysToDelete.length} expired items`);
+      console.error(`[Cache] Cleaned up ${keysToDelete.length} expired items`);
     }
   }
 
@@ -166,7 +166,7 @@ export class SmartCache<T> {
    * 预热缓存
    */
   async warmup(keys: string[], factory: (key: string) => Promise<T>): Promise<void> {
-    console.log(`[Cache] Warming up ${keys.length} cache entries...`);
+    console.error(`[Cache] Warming up ${keys.length} cache entries...`);
 
     const promises = keys.map(async key => {
       try {
@@ -178,7 +178,7 @@ export class SmartCache<T> {
     });
 
     await Promise.allSettled(promises);
-    console.log(`[Cache] Warmup completed`);
+    console.error(`[Cache] Warmup completed`);
   }
 }
 

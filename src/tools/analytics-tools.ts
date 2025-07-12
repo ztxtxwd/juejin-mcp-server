@@ -404,7 +404,7 @@ export class AnalyticsToolHandler {
         pinApi.getBatchPins(50, 1),
       ]);
 
-      console.log(`[SimpleTrends] 获取数据: ${articles.length} 篇文章, ${pins.length} 个沸点`);
+      console.error(`[SimpleTrends] 获取数据: ${articles.length} 篇文章, ${pins.length} 个沸点`);
 
       // 简化版趋势分析
       const trends = this.analyzeSimpleTrends(articles, pins, limit, include_authors);
