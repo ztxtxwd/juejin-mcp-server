@@ -35,7 +35,7 @@ export class RecommendationEngine {
     } = params;
 
     try {
-      console.log(
+      console.error(
         `[RecommendationEngine] Generating ${algorithm} recommendations for user ${user_id}`
       );
 
@@ -643,7 +643,7 @@ export class RecommendationEngine {
     const { user_id, user_interests = [], limit = 10, algorithm = 'hybrid' } = params;
 
     try {
-      console.log(`[RecommendationEngine] Generating user recommendations using ${algorithm}`);
+      console.error(`[RecommendationEngine] Generating user recommendations using ${algorithm}`);
 
       let userRecommendations = [];
 

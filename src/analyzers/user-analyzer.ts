@@ -14,7 +14,7 @@ export class UserAnalyzer {
    */
   async analyzeUserBehavior(userId: string) {
     try {
-      console.log(`[UserAnalyzer] Analyzing user behavior for ${userId}`);
+      console.error(`[UserAnalyzer] Analyzing user behavior for ${userId}`);
 
       // 获取用户基础信息
       const userInfo = await userApi.getUserInfo(userId);

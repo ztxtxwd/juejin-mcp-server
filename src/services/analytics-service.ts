@@ -18,7 +18,7 @@ export class AnalyticsService {
    */
   async generateTrendReport(timeRange: number = 24) {
     try {
-      console.log(`[AnalyticsService] Generating trend report for ${timeRange} hours`);
+      console.error(`[AnalyticsService] Generating trend report for ${timeRange} hours`);
 
       // 并行获取各类数据
       const [articleTrends, pinTrends, topicAnalysis] = await Promise.all([

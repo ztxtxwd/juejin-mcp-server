@@ -353,7 +353,7 @@ export const globalMemoryMonitor = new MemoryMonitor();
 
 // 启动时的性能基准测试
 export async function runPerformanceBenchmark() {
-  console.log('🔍 运行性能基准测试...');
+  console.error('🔍 运行性能基准测试...');
 
   // 测试缓存性能
   const { articleCache } = await import('./cache.js');
@@ -376,7 +376,7 @@ export async function runPerformanceBenchmark() {
   }
 
   const stats = globalPerformanceMonitor.getStats();
-  console.log('📊 基准测试结果:', {
+  console.error('📊 基准测试结果:', {
     cache_write: stats.cache_write_benchmark?.averageDuration.toFixed(2) + 'ms',
     cache_read: stats.cache_read_benchmark?.averageDuration.toFixed(2) + 'ms',
   });

@@ -31,7 +31,7 @@ export class JuejinApiClient {
     // 请求拦截器
     this.client.interceptors.request.use(
       config => {
-        console.log(`[API] ${config.method?.toUpperCase()} ${config.url}`);
+        console.error(`[API] ${config.method?.toUpperCase()} ${config.url}`);
         return config;
       },
       error => {
@@ -43,7 +43,7 @@ export class JuejinApiClient {
     // 响应拦截器
     this.client.interceptors.response.use(
       response => {
-        console.log(`[API] Response: ${response.status} ${response.config.url}`);
+        console.error(`[API] Response: ${response.status} ${response.config.url}`);
         return response;
       },
       error => {

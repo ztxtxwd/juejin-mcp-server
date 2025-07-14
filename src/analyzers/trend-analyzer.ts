@@ -14,7 +14,7 @@ export class TrendAnalyzer {
    */
   async analyzeTrends(timeRange: number = 24): Promise<TrendAnalysis> {
     try {
-      console.log(`[TrendAnalyzer] Analyzing trends for ${timeRange} hours`);
+      console.error(`[TrendAnalyzer] Analyzing trends for ${timeRange} hours`);
 
       // 并行获取数据
       const [articles, pins] = await Promise.all([

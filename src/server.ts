@@ -59,7 +59,7 @@ export class JuejinMcpServer {
       const { name, arguments: args } = request.params;
 
       try {
-        console.log(`[MCP] Calling tool: ${name} with args:`, args);
+        console.error(`[MCP] Calling tool: ${name} with args:`, args);
         
         // 文章相关工具
         if (name === 'get_articles') {
