@@ -1,6 +1,7 @@
 import type { Tool } from '@modelcontextprotocol/sdk/types.js';
 import { articleApi } from '../api/articles.js';
 import { ArticleService } from '../services/article-service.js';
+import { buildArticleUrl } from '../utils/url-builder.js';
 
 const articleService = new ArticleService();
 import { contentAnalyzer } from '../analyzers/content-analyzer.js';
@@ -192,24 +193,28 @@ export class ArticleToolHandler {
       }
 
       const response = {
-        articles: filteredArticles.map((article: any) => ({
-          id: article.article_info?.article_id || '',
-          title: article.article_info?.title || '无标题',
-          brief: article.article_info?.brief_content || '',
-          author: article.author_user_info?.user_name || '匿名用户',
-          category: article.category?.category_name || '未分类',
-          tags: (article.tags || []).map((tag: any) => tag?.tag_name || ''),
-          stats: {
-            views: article.article_info?.view_count || 0,
-            likes: article.article_info?.digg_count || 0,
-            comments: article.article_info?.comment_count || 0,
-            collects: article.article_info?.collect_count || 0,
-          },
-          quality_score: article.quality_score || 0,
-          trend_info: article.trend_info || {},
-          readability: article.readability || {},
-          publish_time: article.article_info?.rtime || '',
-        })),
+        articles: filteredArticles.map((article: any) => {
+          const articleId = article.article_info?.article_id || '';
+          return {
+            id: articleId,
+            title: article.article_info?.title || '无标题',
+            brief: article.article_info?.brief_content || '',
+            author: article.author_user_info?.user_name || '匿名用户',
+            category: article.category?.category_name || '未分类',
+            tags: (article.tags || []).map((tag: any) => tag?.tag_name || ''),
+            url: buildArticleUrl(articleId),
+            stats: {
+              views: article.article_info?.view_count || 0,
+              likes: article.article_info?.digg_count || 0,
+              comments: article.article_info?.comment_count || 0,
+              collects: article.article_info?.collect_count || 0,
+            },
+            quality_score: article.quality_score || 0,
+            trend_info: article.trend_info || {},
+            readability: article.readability || {},
+            publish_time: article.article_info?.rtime || '',
+          };
+        }),
         total_count: filteredArticles.length,
         has_more: result.has_more,
         cursor: result.cursor,
@@ -247,13 +252,15 @@ export class ArticleToolHandler {
 
       const articles = await Promise.all(
         result.articles.map(async (article: any) => {
+          const articleId = article.article_info?.article_id || '';
           const basicInfo = {
-            id: article.article_info?.article_id || '',
+            id: articleId,
             title: article.article_info?.title || '无标题',
             brief: article.article_info?.brief_content || '',
             author: article.author_user_info?.user_name || '匿名用户',
             category: article.category?.category_name || '未分类',
             tags: (article.tags || []).map((tag: any) => tag?.tag_name || ''),
+            url: buildArticleUrl(articleId),
             stats: {
               views: article.article_info?.view_count || 0,
               likes: article.article_info?.digg_count || 0,
@@ -323,6 +330,7 @@ export class ArticleToolHandler {
                 recommendations: recommendations.map((rec: any) => ({
                   id: rec.article_id,
                   title: rec.title,
+                  url: buildArticleUrl(rec.article_id),
                   reason: rec.reason,
                   confidence: Math.round(rec.confidence * 100),
                   category: rec.category,
@@ -436,21 +444,25 @@ export class ArticleToolHandler {
         );
       }
 
-      const trendingArticles = filteredArticles.map((article: any) => ({
-        id: article.article_info?.article_id || '',
-        title: article.article_info?.title || '无标题',
-        author: article.author_user_info?.user_name || '匿名用户',
-        category: article.category?.category_name || '未分类',
-        hot_index: article.article_info?.hot_index || 0,
-        stats: {
-          views: article.article_info?.view_count || 0,
-          likes: article.article_info?.digg_count || 0,
-          comments: article.article_info?.comment_count || 0,
-        },
-        trending_score:
-          (article.article_info?.hot_index || 0) + (article.article_info?.digg_count || 0) * 0.1,
-        publish_time: article.article_info?.rtime || '',
-      }));
+      const trendingArticles = filteredArticles.map((article: any) => {
+        const articleId = article.article_info?.article_id || '';
+        return {
+          id: articleId,
+          title: article.article_info?.title || '无标题',
+          author: article.author_user_info?.user_name || '匿名用户',
+          category: article.category?.category_name || '未分类',
+          url: buildArticleUrl(articleId),
+          hot_index: article.article_info?.hot_index || 0,
+          stats: {
+            views: article.article_info?.view_count || 0,
+            likes: article.article_info?.digg_count || 0,
+            comments: article.article_info?.comment_count || 0,
+          },
+          trending_score:
+            (article.article_info?.hot_index || 0) + (article.article_info?.digg_count || 0) * 0.1,
+          publish_time: article.article_info?.rtime || '',
+        };
+      });
 
       return {
         content: [
