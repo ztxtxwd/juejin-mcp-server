@@ -97,6 +97,9 @@ class CompleteInterfaceTester {
 
       console.log(`✅ 通过: ${name} (${duration}ms)`);
       this.results[category].passed++;
+      if (!this.results[category].tests) {
+        this.results[category].tests = [];
+      }
       this.results[category].tests.push({ name, status: 'PASS', duration: `${duration}ms`, result });
       return result;
     } catch (error) {
@@ -104,6 +107,9 @@ class CompleteInterfaceTester {
 
       console.error(`❌ 失败: ${name} (${duration}ms) - ${error.message}`);
       this.results[category].failed++;
+      if (!this.results[category].tests) {
+        this.results[category].tests = [];
+      }
       this.results[category].tests.push({ name, status: 'FAIL', duration: `${duration}ms`, error: error.message });
       return null;
     }

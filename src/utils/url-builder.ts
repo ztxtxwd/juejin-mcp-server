@@ -8,7 +8,7 @@
  */
 const JUEJIN_URLS = {
   BASE: 'https://juejin.cn',
-  ARTICLE: 'https://juejin.cn/post'
+  ARTICLE: 'https://juejin.cn/post',
 } as const;
 
 /**
@@ -22,4 +22,3 @@ export function buildArticleUrl(articleId: string): string {
   }
   return `${JUEJIN_URLS.ARTICLE}/${articleId}`;
 }
-

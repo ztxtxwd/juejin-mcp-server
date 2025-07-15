@@ -151,6 +151,14 @@ export class PinApi {
   }
 
   /**
+   * 获取推荐沸点
+   */
+  async getRecommendedPins(limit: number = 20) {
+    // 基于默认推荐算法获取沸点
+    return this.getPinList({ limit });
+  }
+
+  /**
    * 获取热门沸点（基于互动数据）
    */
   async getHotPins(limit: number = 20) {
@@ -160,7 +168,8 @@ export class PinApi {
     const hotPins = pins.pins
       .map(pinInfo => ({
         ...pinInfo,
-        heat_score: pinInfo.msg_info.digg_count * 0.6 + pinInfo.msg_info.comment_count * 0.4,
+        heat_score:
+          (pinInfo.msg_info?.digg_count || 0) * 0.6 + (pinInfo.msg_info?.comment_count || 0) * 0.4,
       }))
       .sort((a, b) => b.heat_score - a.heat_score)
       .slice(0, limit);
@@ -219,8 +228,8 @@ export class PinApi {
 
     const stats = {
       total_pins: pins.length,
-      total_diggs: pins.reduce((sum, pin) => sum + pin.msg_info.digg_count, 0),
-      total_comments: pins.reduce((sum, pin) => sum + pin.msg_info.comment_count, 0),
+      total_diggs: pins.reduce((sum, pin) => sum + (pin.msg_info?.digg_count || 0), 0),
+      total_comments: pins.reduce((sum, pin) => sum + (pin.msg_info?.comment_count || 0), 0),
       avg_diggs: 0,
       avg_comments: 0,
       top_topics: [] as Array<{ topic: string; count: number }>,
@@ -249,8 +258,10 @@ export class PinApi {
     // 统计活跃用户
     const userMap = new Map<string, number>();
     pins.forEach(pin => {
-      const userName = pin.author_user_info.user_name;
-      userMap.set(userName, (userMap.get(userName) || 0) + 1);
+      const userName = pin.author_user_info?.user_name;
+      if (userName) {
+        userMap.set(userName, (userMap.get(userName) || 0) + 1);
+      }
     });
 
     stats.active_users = Array.from(userMap.entries())
