@@ -254,26 +254,28 @@ export class PinToolHandler {
         });
       }
 
-      const pins = filteredPins.filter(pin => pin && pin.msg_Info).map(pin => {
-        const contentAnalysis = pinService.analyzeContent(pin);
-        const sentiment = pinService.analyzeSentiment(pin);
+      const pins = filteredPins
+        .filter(pin => pin && pin.msg_Info)
+        .map(pin => {
+          const contentAnalysis = pinService.analyzeContent(pin);
+          const sentiment = pinService.analyzeSentiment(pin);
 
-        return {
-          id: pin.msg_Info.msg_id,
-          content: pin.msg_Info.content,
-          author: pin.author_user_info?.user_name || '未知用户',
-          topic: pin.topic?.title || null,
-          images: pin.msg_Info.pic_list || [],
-          stats: {
-            likes: pin.msg_Info.digg_count || 0,
-            comments: pin.msg_Info.comment_count || 0,
-          },
-          content_type: contentAnalysis.content_type,
-          sentiment: sentiment.sentiment,
-          sentiment_confidence: sentiment.confidence,
-          publish_time: pin.msg_Info.ctime,
-        };
-      });
+          return {
+            id: pin.msg_Info.msg_id,
+            content: pin.msg_Info.content,
+            author: pin.author_user_info?.user_name || '未知用户',
+            topic: pin.topic?.title || null,
+            images: pin.msg_Info.pic_list || [],
+            stats: {
+              likes: pin.msg_Info.digg_count || 0,
+              comments: pin.msg_Info.comment_count || 0,
+            },
+            content_type: contentAnalysis.content_type,
+            sentiment: sentiment.sentiment,
+            sentiment_confidence: sentiment.confidence,
+            publish_time: pin.msg_Info.ctime,
+          };
+        });
 
       return {
         content: [

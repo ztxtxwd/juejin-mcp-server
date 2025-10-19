@@ -77,7 +77,7 @@ export class PinService {
       return {
         sentiment: 'neutral',
         confidence: 0.5,
-        scores: { positive: 0, negative: 0, question: 0 }
+        scores: { positive: 0, negative: 0, question: 0 },
       };
     }
     const content = pinInfo.msg_Info.content;
@@ -138,7 +138,7 @@ export class PinService {
         status: 'stable',
         engagement_rate: 0,
         hours_since_publish: 0,
-        viral_potential: 0
+        viral_potential: 0,
       };
     }
     const pin = pinInfo.msg_Info;
@@ -496,17 +496,25 @@ export class PinService {
     // 基础统计
     const totalPins = recentPins.length;
     const totalDiggs = recentPins.reduce((sum, pin) => sum + (pin.msg_Info?.digg_count || 0), 0);
-    const totalComments = recentPins.reduce((sum, pin) => sum + (pin.msg_Info?.comment_count || 0), 0);
+    const totalComments = recentPins.reduce(
+      (sum, pin) => sum + (pin.msg_Info?.comment_count || 0),
+      0
+    );
 
     // 内容类型分布
-    const contentTypes = recentPins.filter(pin => pin.msg_Info).map(pin => this.classifyContentType(pin.msg_Info.content));
+    const contentTypes = recentPins
+      .filter(pin => pin.msg_Info)
+      .map(pin => this.classifyContentType(pin.msg_Info.content));
     const contentTypeStats = _.countBy(contentTypes);
 
     // 活跃时段分析
-    const hourlyStats = _.groupBy(recentPins.filter(pin => pin.msg_Info), pin => {
-      const hour = parseISO(pin.msg_Info.ctime).getHours();
-      return hour;
-    });
+    const hourlyStats = _.groupBy(
+      recentPins.filter(pin => pin.msg_Info),
+      pin => {
+        const hour = parseISO(pin.msg_Info.ctime).getHours();
+        return hour;
+      }
+    );
 
     const hourlyActivity = Object.entries(hourlyStats)
       .map(([hour, pins]) => ({
@@ -591,10 +599,13 @@ export class PinService {
             0
           ),
           pin_count: validPins.length,
-          avg_engagement: validPins.length > 0
-            ? validPins.reduce((sum, pin) => sum + pin.msg_Info.digg_count + pin.msg_Info.comment_count, 0) /
-              validPins.length
-            : 0,
+          avg_engagement:
+            validPins.length > 0
+              ? validPins.reduce(
+                  (sum, pin) => sum + pin.msg_Info.digg_count + pin.msg_Info.comment_count,
+                  0
+                ) / validPins.length
+              : 0,
         };
       })
       .sort((a, b) => a.hour.localeCompare(b.hour));
