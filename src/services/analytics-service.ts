@@ -92,7 +92,7 @@ export class AnalyticsService {
 
     // 过滤时间范围内的沸点
     const recentPins = pins.filter(pin => {
-      const publishTime = new Date(pin.msg_info.ctime);
+      const publishTime = new Date(pin.msg_Info.ctime);
       const hoursAgo = differenceInHours(new Date(), publishTime);
       return hoursAgo <= timeRange;
     });
@@ -278,7 +278,7 @@ export class AnalyticsService {
    */
   private analyzeEngagementTrends(pins: any[]) {
     const hourlyEngagement = _.groupBy(pins, pin => {
-      const publishTime = new Date(pin.msg_info.ctime);
+      const publishTime = new Date(pin.msg_Info.ctime);
       return publishTime.getHours();
     });
 
@@ -286,10 +286,10 @@ export class AnalyticsService {
       .map(([hour, pins]) => ({
         hour: parseInt(hour),
         pin_count: pins.length,
-        total_diggs: pins.reduce((sum, pin) => sum + pin.msg_info.digg_count, 0),
-        total_comments: pins.reduce((sum, pin) => sum + pin.msg_info.comment_count, 0),
+        total_diggs: pins.reduce((sum, pin) => sum + pin.msg_Info.digg_count, 0),
+        total_comments: pins.reduce((sum, pin) => sum + pin.msg_Info.comment_count, 0),
         avg_engagement:
-          pins.reduce((sum, pin) => sum + pin.msg_info.digg_count + pin.msg_info.comment_count, 0) /
+          pins.reduce((sum, pin) => sum + pin.msg_Info.digg_count + pin.msg_Info.comment_count, 0) /
           pins.length,
       }))
       .sort((a, b) => a.hour - b.hour);
@@ -318,10 +318,10 @@ export class AnalyticsService {
   private getViralPins(pins: any[]) {
     return pins
       .map(pin => ({
-        pin_id: pin.msg_info.msg_id,
-        content: pin.msg_info.content.substring(0, 100) + '...',
+        pin_id: pin.msg_Info.msg_id,
+        content: pin.msg_Info.content.substring(0, 100) + '...',
         author: pin.author_user_info.user_name,
-        engagement: pin.msg_info.digg_count + pin.msg_info.comment_count,
+        engagement: pin.msg_Info.digg_count + pin.msg_Info.comment_count,
         viral_potential: this.pinService.calculatePinTrend(pin).viral_potential,
       }))
       .sort((a, b) => b.viral_potential - a.viral_potential)

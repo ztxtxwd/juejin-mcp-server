@@ -103,8 +103,8 @@ export class PinApi {
     // 在客户端进行简单的关键词过滤
     const filteredPins = pins.pins
       .filter(pinInfo => {
-        const pin = pinInfo.msg_info;
-        return pin.content.toLowerCase().includes(keyword.toLowerCase());
+        const pin = pinInfo.msg_Info;
+        return pin && pin.content.toLowerCase().includes(keyword.toLowerCase());
       })
       .slice(0, limit);
 
@@ -122,7 +122,7 @@ export class PinApi {
    */
   async getPinDetail(pinId: string) {
     const pins = await this.getPinList({ limit: 100 });
-    const pin = pins.pins.find(pinInfo => pinInfo.msg_info.msg_id === pinId);
+    const pin = pins.pins.find(pinInfo => pinInfo.msg_Info.msg_id === pinId);
 
     if (!pin) {
       throw new Error(`Pin not found: ${pinId}`);
@@ -138,7 +138,7 @@ export class PinApi {
     const pins = await this.getPinList({ limit: limit * 2 });
 
     const userPins = pins.pins
-      .filter(pinInfo => pinInfo.msg_info.user_id === userId)
+      .filter(pinInfo => pinInfo.msg_Info.user_id === userId)
       .slice(0, limit);
 
     return {
@@ -166,10 +166,11 @@ export class PinApi {
 
     // 计算热度分数：点赞数 * 0.6 + 评论数 * 0.4
     const hotPins = pins.pins
+      .filter(pinInfo => pinInfo && pinInfo.msg_Info)
       .map(pinInfo => ({
         ...pinInfo,
         heat_score:
-          (pinInfo.msg_info?.digg_count || 0) * 0.6 + (pinInfo.msg_info?.comment_count || 0) * 0.4,
+          (pinInfo.msg_Info?.digg_count || 0) * 0.6 + (pinInfo.msg_Info?.comment_count || 0) * 0.4,
       }))
       .sort((a, b) => b.heat_score - a.heat_score)
       .slice(0, limit);
@@ -228,8 +229,8 @@ export class PinApi {
 
     const stats = {
       total_pins: pins.length,
-      total_diggs: pins.reduce((sum, pin) => sum + (pin.msg_info?.digg_count || 0), 0),
-      total_comments: pins.reduce((sum, pin) => sum + (pin.msg_info?.comment_count || 0), 0),
+      total_diggs: pins.reduce((sum, pin) => sum + (pin.msg_Info?.digg_count || 0), 0),
+      total_comments: pins.reduce((sum, pin) => sum + (pin.msg_Info?.comment_count || 0), 0),
       avg_diggs: 0,
       avg_comments: 0,
       top_topics: [] as Array<{ topic: string; count: number }>,

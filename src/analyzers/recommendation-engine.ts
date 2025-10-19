@@ -311,8 +311,8 @@ export class RecommendationEngine {
 
         for (const pin of userPins.slice(0, limit)) {
           recommendations.push({
-            article_id: pin.msg_info.msg_id,
-            title: pin.msg_info.content.substring(0, 50) + '...',
+            article_id: pin.msg_Info.msg_id,
+            title: pin.msg_Info.content.substring(0, 50) + '...',
             reason: '相似用户发布',
             confidence: 0.6,
             category: '沸点',
@@ -378,8 +378,8 @@ export class RecommendationEngine {
 
         if (interestScore > 0.2 || qualityAnalysis.quality_score > 60) {
           recommendations.push({
-            article_id: pin.msg_info.msg_id,
-            title: pin.msg_info.content.substring(0, 50) + '...',
+            article_id: pin.msg_Info.msg_id,
+            title: pin.msg_Info.content.substring(0, 50) + '...',
             reason: this.generatePinRecommendationReason(interestScore, qualityAnalysis),
             confidence: interestScore * 0.7 + (qualityAnalysis.quality_score / 100) * 0.3,
             category: '沸点',
@@ -424,8 +424,8 @@ export class RecommendationEngine {
       const pins = await pinApi.searchPins(topic, limit * 2);
 
       return pins.pins.slice(0, limit).map(pin => ({
-        article_id: pin.msg_info.msg_id,
-        title: pin.msg_info.content.substring(0, 50) + '...',
+        article_id: pin.msg_Info.msg_id,
+        title: pin.msg_Info.content.substring(0, 50) + '...',
         reason: `热门话题：${topic}`,
         confidence: 0.7,
         category: '沸点',
@@ -478,7 +478,7 @@ export class RecommendationEngine {
   private calculatePinInterestScore(pin: any, userInterests: string[]): number {
     if (userInterests.length === 0) return 0.5;
 
-    const content = pin.msg_info.content.toLowerCase();
+    const content = pin.msg_Info.content.toLowerCase();
     const topicTitle = pin.topic?.title?.toLowerCase() || '';
 
     let score = 0;

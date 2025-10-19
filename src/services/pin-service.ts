@@ -36,9 +36,11 @@ export class PinService {
       limit,
     });
 
+    const validPins = result.pins.filter(pin => pin && pin.msg_Info);
+
     // 增强沸点信息
     const enhancedPins = await Promise.all(
-      result.pins.map(async pinInfo => {
+      validPins.map(async pinInfo => {
         const enhanced: any = { ...pinInfo };
 
         // 添加情感分析
@@ -71,7 +73,14 @@ export class PinService {
    * 分析沸点情感倾向
    */
   analyzeSentiment(pinInfo: PinInfo) {
-    const content = pinInfo.msg_info.content;
+    if (!pinInfo || !pinInfo.msg_Info) {
+      return {
+        sentiment: 'neutral',
+        confidence: 0.5,
+        scores: { positive: 0, negative: 0, question: 0 }
+      };
+    }
+    const content = pinInfo.msg_Info.content;
 
     // 简单的情感词典方法
     const positiveWords = ['好', '棒', '赞', '优秀', '完美', '喜欢', '爱', '开心', '高兴', '满意'];
@@ -124,7 +133,15 @@ export class PinService {
    * 计算沸点趋势
    */
   calculatePinTrend(pinInfo: PinInfo) {
-    const pin = pinInfo.msg_info;
+    if (!pinInfo || !pinInfo.msg_Info) {
+      return {
+        status: 'stable',
+        engagement_rate: 0,
+        hours_since_publish: 0,
+        viral_potential: 0
+      };
+    }
+    const pin = pinInfo.msg_Info;
     const publishTime = parseISO(pin.ctime);
     const hoursAgo = differenceInHours(new Date(), publishTime);
 
@@ -166,7 +183,7 @@ export class PinService {
    * 计算病毒传播潜力
    */
   private calculateViralPotential(pinInfo: PinInfo): number {
-    const pin = pinInfo.msg_info;
+    const pin = pinInfo.msg_Info;
     const author = pinInfo.author_user_info;
 
     let potential = 0;
@@ -201,12 +218,25 @@ export class PinService {
    * 分析沸点内容
    */
   analyzeContent(pinInfo: PinInfo) {
-    const content = pinInfo.msg_info.content;
+    if (!pinInfo || !pinInfo.msg_Info) {
+      return {
+        length: 0,
+        has_images: false,
+        image_count: 0,
+        has_topic: false,
+        has_mention: false,
+        has_link: false,
+        content_type: 'general',
+        readability_score: 50,
+      };
+    }
+
+    const content = pinInfo.msg_Info.content;
 
     return {
       length: content.length,
-      has_images: pinInfo.msg_info.pic_list && pinInfo.msg_info.pic_list.length > 0,
-      image_count: pinInfo.msg_info.pic_list ? pinInfo.msg_info.pic_list.length : 0,
+      has_images: pinInfo.msg_Info.pic_list && pinInfo.msg_Info.pic_list.length > 0,
+      image_count: pinInfo.msg_Info.pic_list ? pinInfo.msg_Info.pic_list.length : 0,
       has_topic: content.includes('#'),
       has_mention: content.includes('@'),
       has_link: /https?:\/\//.test(content),
@@ -254,7 +284,10 @@ export class PinService {
    * 计算互动质量评分
    */
   calculateEngagementQuality(pinInfo: PinInfo): number {
-    const pin = pinInfo.msg_info;
+    if (!pinInfo || !pinInfo.msg_Info) {
+      return 0;
+    }
+    const pin = pinInfo.msg_Info;
     const author = pinInfo.author_user_info;
 
     let quality = 0;
@@ -286,7 +319,7 @@ export class PinService {
 
     // 过滤时间范围内的沸点
     const recentPins = pins.filter(pin => {
-      const publishTime = parseISO(pin.msg_info.ctime);
+      const publishTime = parseISO(pin.msg_Info.ctime);
       const hoursAgo = differenceInHours(new Date(), publishTime);
       return hoursAgo <= timeRange;
     });
@@ -304,9 +337,9 @@ export class PinService {
     >();
 
     recentPins.forEach(pin => {
-      if (pin.topic && pin.topic.topic_id) {
+      if (pin && pin.msg_Info && pin.topic && pin.topic.topic_id) {
         const topicId = pin.topic.topic_id;
-        const engagement = pin.msg_info.digg_count + pin.msg_info.comment_count;
+        const engagement = pin.msg_Info.digg_count + pin.msg_Info.comment_count;
 
         if (topicMap.has(topicId)) {
           const topic = topicMap.get(topicId)!;
@@ -359,7 +392,7 @@ export class PinService {
 
     // 过滤和评分
     const scoredPins = pins
-      .filter(pin => !exclude_ids.includes(pin.msg_info.msg_id))
+      .filter(pin => pin && pin.msg_Info && !exclude_ids.includes(pin.msg_Info.msg_id))
       .map(pin => {
         const contentAnalysis = this.analyzeContent(pin);
         const engagementQuality = this.calculateEngagementQuality(pin);
@@ -385,12 +418,12 @@ export class PinService {
       .slice(0, limit);
 
     return scoredPins.map(item => ({
-      pin_id: item!.pin.msg_info.msg_id,
-      content: item!.pin.msg_info.content.substring(0, 100) + '...',
+      pin_id: item!.pin.msg_Info.msg_id,
+      content: item!.pin.msg_Info.content.substring(0, 100) + '...',
       reason: this.generatePinRecommendationReason(item!),
       confidence: item!.total_score / 100,
       content_type: item!.content_type,
-      author: item!.pin.author_user_info.user_name,
+      author: item!.pin.author_user_info?.user_name || '未知用户',
     }));
   }
 
@@ -398,9 +431,9 @@ export class PinService {
    * 计算沸点兴趣匹配分数
    */
   private calculatePinInterestScore(pinInfo: PinInfo, userInterests: string[]): number {
-    if (userInterests.length === 0) return 50;
+    if (userInterests.length === 0 || !pinInfo || !pinInfo.msg_Info) return 50;
 
-    const content = pinInfo.msg_info.content.toLowerCase();
+    const content = pinInfo.msg_Info.content.toLowerCase();
     const topicTitle = pinInfo.topic?.title?.toLowerCase() || '';
 
     let matchScore = 0;
@@ -455,23 +488,23 @@ export class PinService {
 
     // 过滤时间范围
     const recentPins = pins.filter(pin => {
-      const publishTime = parseISO(pin.msg_info.ctime);
+      const publishTime = parseISO(pin.msg_Info.ctime);
       const hoursAgo = differenceInHours(new Date(), publishTime);
       return hoursAgo <= timeRange;
     });
 
     // 基础统计
     const totalPins = recentPins.length;
-    const totalDiggs = recentPins.reduce((sum, pin) => sum + pin.msg_info.digg_count, 0);
-    const totalComments = recentPins.reduce((sum, pin) => sum + pin.msg_info.comment_count, 0);
+    const totalDiggs = recentPins.reduce((sum, pin) => sum + (pin.msg_Info?.digg_count || 0), 0);
+    const totalComments = recentPins.reduce((sum, pin) => sum + (pin.msg_Info?.comment_count || 0), 0);
 
     // 内容类型分布
-    const contentTypes = recentPins.map(pin => this.classifyContentType(pin.msg_info.content));
+    const contentTypes = recentPins.filter(pin => pin.msg_Info).map(pin => this.classifyContentType(pin.msg_Info.content));
     const contentTypeStats = _.countBy(contentTypes);
 
     // 活跃时段分析
-    const hourlyStats = _.groupBy(recentPins, pin => {
-      const hour = parseISO(pin.msg_info.ctime).getHours();
+    const hourlyStats = _.groupBy(recentPins.filter(pin => pin.msg_Info), pin => {
+      const hour = parseISO(pin.msg_Info.ctime).getHours();
       return hour;
     });
 
@@ -480,7 +513,7 @@ export class PinService {
         hour: parseInt(hour),
         pin_count: pins.length,
         avg_engagement:
-          pins.reduce((sum, pin) => sum + pin.msg_info.digg_count + pin.msg_info.comment_count, 0) /
+          pins.reduce((sum, pin) => sum + pin.msg_Info.digg_count + pin.msg_Info.comment_count, 0) /
           pins.length,
       }))
       .sort((a, b) => a.hour - b.hour);
@@ -515,8 +548,10 @@ export class PinService {
     >();
 
     pins.forEach(pin => {
+      if (!pin.msg_Info || !pin.author_user_info) return;
+
       const userId = pin.author_user_info.user_id;
-      const engagement = pin.msg_info.digg_count + pin.msg_info.comment_count;
+      const engagement = pin.msg_Info.digg_count + pin.msg_Info.comment_count;
 
       if (authorMap.has(userId)) {
         const author = authorMap.get(userId)!;
@@ -542,22 +577,26 @@ export class PinService {
   private calculateEngagementTrends(pins: PinInfo[]) {
     // 按小时分组计算趋势
     const hourlyEngagement = _.groupBy(pins, pin => {
-      const publishTime = parseISO(pin.msg_info.ctime);
+      const publishTime = parseISO(pin.msg_Info.ctime);
       return format(publishTime, 'yyyy-MM-dd HH:00', { locale: zhCN });
     });
 
     return Object.entries(hourlyEngagement)
-      .map(([hour, pins]) => ({
-        hour,
-        total_engagement: pins.reduce(
-          (sum, pin) => sum + pin.msg_info.digg_count + pin.msg_info.comment_count,
-          0
-        ),
-        pin_count: pins.length,
-        avg_engagement:
-          pins.reduce((sum, pin) => sum + pin.msg_info.digg_count + pin.msg_info.comment_count, 0) /
-          pins.length,
-      }))
+      .map(([hour, pins]) => {
+        const validPins = pins.filter(pin => pin.msg_Info);
+        return {
+          hour,
+          total_engagement: validPins.reduce(
+            (sum, pin) => sum + pin.msg_Info.digg_count + pin.msg_Info.comment_count,
+            0
+          ),
+          pin_count: validPins.length,
+          avg_engagement: validPins.length > 0
+            ? validPins.reduce((sum, pin) => sum + pin.msg_Info.digg_count + pin.msg_Info.comment_count, 0) /
+              validPins.length
+            : 0,
+        };
+      })
       .sort((a, b) => a.hour.localeCompare(b.hour));
   }
 }

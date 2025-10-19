@@ -119,7 +119,7 @@ export class UserAnalyzer {
     // 估算月均发布量（基于最近内容的时间跨度）
     const allDates = [
       ...articles.map(a => new Date(a.article_info.rtime)),
-      ...pins.map(p => new Date(p.msg_info.ctime)),
+      ...pins.map(p => new Date(p.msg_Info.ctime)),
     ].sort((a, b) => a.getTime() - b.getTime());
 
     const timeSpanDays =
@@ -169,7 +169,7 @@ export class UserAnalyzer {
     const avgArticleEngagement = articleEngagements.length > 0 ? _.mean(articleEngagements) : 0;
 
     // 沸点质量分析
-    const pinEngagements = pins.map(pin => pin.msg_info.digg_count + pin.msg_info.comment_count);
+    const pinEngagements = pins.map(pin => pin.msg_Info.digg_count + pin.msg_Info.comment_count);
     const avgPinEngagement = pinEngagements.length > 0 ? _.mean(pinEngagements) : 0;
 
     // 质量一致性（标准差的倒数）
@@ -213,7 +213,7 @@ export class UserAnalyzer {
         topics.add(pin.topic.title);
       }
       // 提取话题标签
-      const content = pin.msg_info.content;
+      const content = pin.msg_Info.content;
       const hashtagMatches = content.match(/#([^#\s]+)/g);
       if (hashtagMatches) {
         hashtagMatches.forEach((tag: string) => topics.add(tag.substring(1)));
@@ -241,7 +241,7 @@ export class UserAnalyzer {
     );
     const totalEngagement = [
       ...articles.map(a => a.article_info.digg_count + a.article_info.comment_count),
-      ...pins.map(p => p.msg_info.digg_count + p.msg_info.comment_count),
+      ...pins.map(p => p.msg_Info.digg_count + p.msg_Info.comment_count),
     ].reduce((sum, eng) => sum + eng, 0);
 
     const engagementRate = totalViews > 0 ? totalEngagement / totalViews : 0;
@@ -260,7 +260,7 @@ export class UserAnalyzer {
   private analyzeCreationConsistency(articles: any[], pins: any[]) {
     const allDates = [
       ...articles.map(a => new Date(a.article_info.rtime)),
-      ...pins.map(p => new Date(p.msg_info.ctime)),
+      ...pins.map(p => new Date(p.msg_Info.ctime)),
     ].sort((a, b) => a.getTime() - b.getTime());
 
     if (allDates.length < 2) {

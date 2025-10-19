@@ -283,7 +283,7 @@ export class AnalyticsToolHandler {
         title:
           content_type === 'article'
             ? content.article_info.title
-            : content.msg_info.content.substring(0, 50) + '...',
+            : content.msg_Info.content.substring(0, 50) + '...',
         quality_analysis: {
           overall_score: qualityAnalysis.quality_score,
           factors: qualityAnalysis.factors,
@@ -506,7 +506,7 @@ export class AnalyticsToolHandler {
 
     // 分析沸点
     pins.forEach(pin => {
-      const info = pin.msg_info || {};
+      const info = pin.msg_Info || {};
       const engagement = (info.digg_count || 0) + (info.comment_count || 0);
 
       // 从沸点内容中提取话题标签
@@ -686,7 +686,7 @@ export class AnalyticsToolHandler {
             title:
               content_type === 'article'
                 ? content.article_info.title
-                : content.msg_info.content.substring(0, 50) + '...',
+                : content.msg_Info.content.substring(0, 50) + '...',
             quality_score: analysis.quality_score,
             engagement_metrics: metrics,
             trending_potential: analysis.prediction.trending_probability,
@@ -803,7 +803,7 @@ export class AnalyticsToolHandler {
             : 0,
       };
     } else {
-      const pin = content.msg_info;
+      const pin = content.msg_Info;
       return {
         likes: pin.digg_count,
         comments: pin.comment_count,

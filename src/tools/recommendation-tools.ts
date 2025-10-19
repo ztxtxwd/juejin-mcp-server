@@ -651,7 +651,7 @@ export class RecommendationToolHandler {
   private generateSimplePinRecommendations(pins: any[], userInterests: string[], limit: number) {
     return pins
       .map(pin => {
-        const info = pin.msg_info || {};
+        const info = pin.msg_Info || {};
         const relevanceScore = this.calculateSimplePinRelevanceScore(pin, userInterests);
         const popularityScore = info.digg_count + info.comment_count;
 
@@ -717,7 +717,7 @@ export class RecommendationToolHandler {
     if (!userInterests.length) return 0.5;
 
     let score = 0;
-    const content = (pin.msg_info?.content || '').toLowerCase();
+    const content = (pin.msg_Info?.content || '').toLowerCase();
     const topic = (pin.topic?.title || '').toLowerCase();
 
     userInterests.forEach(interest => {

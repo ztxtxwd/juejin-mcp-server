@@ -73,7 +73,7 @@ export interface Pin {
 
 export interface PinInfo {
   msg_id: string;
-  msg_info: Pin;
+  msg_Info: Pin;  // 注意：API返回的是 msg_Info（大写I）
   author_user_info: UserInfo;
   topic: Topic;
   user_interact: UserInteract;

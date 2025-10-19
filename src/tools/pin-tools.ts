@@ -191,22 +191,24 @@ export class PinToolHandler {
         include_trend_info,
       });
 
+      const validPins = result.pins.filter(pin => pin && pin.msg_Info);
+
       const response = {
-        pins: result.pins.map(pin => ({
-          id: pin.msg_info.msg_id,
-          content: pin.msg_info.content,
-          author: pin.author_user_info.user_name,
+        pins: validPins.map(pin => ({
+          id: pin.msg_Info.msg_id,
+          content: pin.msg_Info.content,
+          author: pin.author_user_info?.user_name || '未知用户',
           topic: pin.topic?.title || null,
-          images: pin.msg_info.pic_list || [],
+          images: pin.msg_Info.pic_list || [],
           stats: {
-            likes: pin.msg_info.digg_count,
-            comments: pin.msg_info.comment_count,
+            likes: pin.msg_Info.digg_count || 0,
+            comments: pin.msg_Info.comment_count || 0,
           },
           sentiment: pin.sentiment,
           trend_info: pin.trend_info,
           content_analysis: pin.content_analysis,
           engagement_quality: pin.engagement_quality,
-          publish_time: pin.msg_info.ctime,
+          publish_time: pin.msg_Info.ctime,
         })),
         total_count: result.pins.length,
         has_more: result.has_more,
@@ -252,24 +254,24 @@ export class PinToolHandler {
         });
       }
 
-      const pins = filteredPins.map(pin => {
+      const pins = filteredPins.filter(pin => pin && pin.msg_Info).map(pin => {
         const contentAnalysis = pinService.analyzeContent(pin);
         const sentiment = pinService.analyzeSentiment(pin);
 
         return {
-          id: pin.msg_info.msg_id,
-          content: pin.msg_info.content,
-          author: pin.author_user_info.user_name,
+          id: pin.msg_Info.msg_id,
+          content: pin.msg_Info.content,
+          author: pin.author_user_info?.user_name || '未知用户',
           topic: pin.topic?.title || null,
-          images: pin.msg_info.pic_list || [],
+          images: pin.msg_Info.pic_list || [],
           stats: {
-            likes: pin.msg_info.digg_count,
-            comments: pin.msg_info.comment_count,
+            likes: pin.msg_Info.digg_count || 0,
+            comments: pin.msg_Info.comment_count || 0,
           },
           content_type: contentAnalysis.content_type,
           sentiment: sentiment.sentiment,
           sentiment_confidence: sentiment.confidence,
-          publish_time: pin.msg_info.ctime,
+          publish_time: pin.msg_Info.ctime,
         };
       });
 

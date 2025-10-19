@@ -59,7 +59,7 @@ export class ContentAnalyzer {
    * 分析沸点质量
    */
   private analyzePinQuality(pinInfo: any): ContentQuality {
-    const pin = pinInfo.msg_info;
+    const pin = pinInfo.msg_Info;
     const author = pinInfo.author_user_info;
 
     const qualityFactors = {
@@ -463,7 +463,7 @@ export class ContentAnalyzer {
   }
 
   private analyzeViralPotential(pinInfo: any): number {
-    const pin = pinInfo.msg_info;
+    const pin = pinInfo.msg_Info;
     const author = pinInfo.author_user_info;
 
     let score = 0;
@@ -574,7 +574,7 @@ export class ContentAnalyzer {
   }
 
   private classifyPin(pinInfo: any): string {
-    const content = pinInfo.msg_info.content.toLowerCase();
+    const content = pinInfo.msg_Info.content.toLowerCase();
 
     if (content.includes('?') || content.includes('？')) return 'question';
     if (content.includes('分享') || content.includes('推荐')) return 'sharing';

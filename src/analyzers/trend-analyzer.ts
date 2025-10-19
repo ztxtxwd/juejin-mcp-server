@@ -54,7 +54,7 @@ export class TrendAnalyzer {
 
     return items.filter(item => {
       const timeValue =
-        timeField === 'rtime' ? item.article_info?.[timeField] : item.msg_info?.[timeField];
+        timeField === 'rtime' ? item.article_info?.[timeField] : item.msg_Info?.[timeField];
 
       if (!timeValue) return false;
 
@@ -156,7 +156,7 @@ export class TrendAnalyzer {
     const topics = [];
 
     // 从内容中提取话题标签
-    const content = pin.msg_info.content;
+    const content = pin.msg_Info.content;
     const hashtagMatches = content.match(/#([^#\s]+)/g);
     if (hashtagMatches) {
       topics.push(...hashtagMatches.map((tag: string) => tag.substring(1)));
@@ -293,7 +293,7 @@ export class TrendAnalyzer {
    * 计算沸点参与度
    */
   private calculatePinEngagement(pin: any): number {
-    const info = pin.msg_info;
+    const info = pin.msg_Info;
     return info.digg_count + info.comment_count;
   }
 
@@ -453,7 +453,7 @@ export class TrendAnalyzer {
     // 分析沸点中的话题提及
     pins.forEach(pin => {
       if (this.containsTopic(pin, topic)) {
-        const timeSlot = this.getTimeSlot(pin.msg_info.ctime, timeSlots);
+        const timeSlot = this.getTimeSlot(pin.msg_Info.ctime, timeSlots);
         if (timeSlot !== -1) {
           history[timeSlot].pin_mentions++;
           history[timeSlot].total_engagement += this.calculatePinEngagement(pin);
@@ -495,9 +495,9 @@ export class TrendAnalyzer {
         brief.includes(lowerTopic) ||
         tags.some((tag: string) => tag.includes(lowerTopic))
       );
-    } else if (item.msg_info) {
+    } else if (item.msg_Info) {
       // 沸点
-      const content = item.msg_info.content.toLowerCase();
+      const content = item.msg_Info.content.toLowerCase();
       const topicTitle = item.topic?.title?.toLowerCase() || '';
 
       return content.includes(lowerTopic) || topicTitle.includes(lowerTopic);
